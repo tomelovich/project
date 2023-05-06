@@ -415,7 +415,7 @@ section{
    width: 70%;
    padding:1rem 1rem;
    border-radius: .5rem;
-   border:var(--border);
+   border: 1px solid black;
    margin:1rem 0;
    font-size: 2rem;
 }
@@ -876,10 +876,90 @@ section{
    background-color: var(--light-bg);
    border-radius: .5rem;
 }
+.catalog-book__product { 
+   display:flex;
+ }
+ .product__title {
+   font-family: 'Playfair Display', serif;
+   font-size: 40px;
+   color: #182450;
+ }
+ .product__description {
+   color: #4f5b66;
+   font-size: 21px;
+   margin: 20px 0;
+ }
+ .catalog-book {
+   width: 80%;
+ }
+ 
+ .book_image {
+   width: 30%;
+   margin: 10px 10px 30px;
+   text-align: center; 
+   padding: 20px 0;
+   box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.1);
+ }
+ .book_image img {
+   width: 250px;
+   transition: 0.4s;
+ }
+ .book_image img:hover {
+   transition: 0.4s;
+   -webkit-transform: scale(0.8);
+   -ms-transform: scale(0.8);
+   transform: scale(0.8);
+ }
+ .add-to-cart {
+   font-family: 'Rubik', sans-serif;
+   width: 90%;
+   padding:  10px 0;
+   background-color: #182450;
+   color: white;
+   border-radius: 5px;
+   font-weight: 600;
+ }
+   .add-to-cart:hover {
+     background-color: red;
+     transition: 0.4s;
+   }
+   
+   .product__price-value {
+     font-size: 30px;
+     font-weight: bold;
+     width: 100%;
+   }
+   .product__content {
+      box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      margin: 10px 10px 30px;
+      padding: 20px 0 0 30px;
+      font-family: 'Rubik', sans-serif;
+      display: flex;
+      flex-direction: column;
+   }
+   .product__content .option-btn {
+      display: block;
+      width: 90%;
+      text-align: center;
+   }
+   .description-book {
+      width: 90%;
+      padding: 1% 10% 1% 0;
+      margin-top: 20px;
+      font-size: 16px;
+      border-top: 1px solid #182450;
+      border-bottom: 1px solid #182450;
+   }
 
-
-
-
+   [name="product_quantity"] {
+      width: 70%;
+    padding: 1rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+    margin: 1rem 0;
+    font-size: 2rem;
+    }
 
 
 
@@ -1039,4 +1119,128 @@ section{
       font-size: 3rem;
    }
 
+}
+/* ----------------------------------------------------------------отзывы */
+.modal {
+   display: none; /* скрываем по умолчанию */
+   position: fixed; /* фиксированное положение */
+   z-index: 1; /* находится выше остального контента */
+   left: 0;
+   top: 0;
+   width: 100%;
+   height: 100%;
+   overflow: auto; /* добавляем прокрутку, если контент выходит за границы окна */
+   background-color: rgba(0, 0, 0, 0.4); /* темный фон, чтобы подчеркнуть модальное окно */
+ }
+ #openModal {
+   display: inline-block;
+   margin: 1rem;
+   padding:1rem 3rem;
+   cursor: pointer;
+   color:var(--white);
+   font-size: 1.8rem;
+   border-radius: .5rem;
+   text-transform: capitalize;
+   background-color: #182450;
+ }
+ /* Стили для контента модального окна */
+ .modal-content {
+   background-color: #fefefe;
+   margin: 10% auto; /* располагаем по центру */
+   padding: 20px;
+   border: 1px solid #888;
+   width: 80%;
+   
+ }
+ .modal-content h1 {
+   font-size: 27px;
+ }
+ /* Стили для кнопки закрытия */
+ .close {
+   color: #aaa;
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+ }
+ 
+ .close:hover,
+ .close:focus {
+   color: black;
+   text-decoration: none;
+   cursor: pointer;
+ }
+ .review_content label {
+   font-size: 21px;
+ }
+.review_content textarea {
+   width: 100%;
+   border: 1px solid black;
+   padding: 10px;
+}
+
+.rating-area {
+	overflow: hidden;
+	width: 265px;
+	margin: 0 auto;
+}
+.rating-area:not(:checked) > input {
+	display: none;
+}
+.rating-area:not(:checked) > label {
+	float: right;
+	width: 42px;
+	padding: 0;
+	cursor: pointer;
+	font-size: 32px;
+	line-height: 32px;
+	color: lightgrey;
+	text-shadow: 1px 1px #bbb;
+}
+.rating-area:not(:checked) > label:before {
+	content: '★';
+}
+.rating-area > input:checked ~ label {
+	color: gold;
+	text-shadow: 1px 1px #c60;
+}
+.rating-area:not(:checked) > label:hover,
+.rating-area:not(:checked) > label:hover ~ label {
+	color: gold;
+}
+.rating-area > input:checked + label:hover,
+.rating-area > input:checked + label:hover ~ label,
+.rating-area > input:checked ~ label:hover,
+.rating-area > input:checked ~ label:hover ~ label,
+.rating-area > label:hover ~ input:checked ~ label {
+	color: gold;
+	text-shadow: 1px 1px goldenrod;
+}
+.rate-area > label:active {
+	position: relative;
+}
+
+.rating-mini {
+	display: inline-block;
+	font-size: 0;
+}
+.rating-mini span {
+	padding: 0;
+	font-size: 30px;
+	line-height: 1;
+	color: lightgrey;
+}
+.rating-mini > span:before {
+	content: '★';
+}
+.rating-mini > span.active {
+	color: gold;
+}
+.rating-items {
+   margin: 10px;
+   padding: 10px;
+   border-bottom: 1px solid black;
+   
+}
+.rating-items p {
+   font-size: 16px;
 }

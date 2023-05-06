@@ -24,7 +24,7 @@ if(!isset($user_id)){
 if(isset($_POST['add_to_cart'])){
 
    $product_name = $_POST['product_name'];
-   $product_id = mysqli_query($conn, "SELECT `id` FROM `products` WHERE `name` = '$product_name' ") or die('query failed');
+   $product_id = mysqli_query($conn, "SELECT `id` FROM `products` WHERE `name` = '$product_name' ") or die(mysqli_error($conn));
    if(mysqli_num_rows($product_id) > 0){
       while($fetch_products = mysqli_fetch_assoc($product_id)){
          $id = $fetch_products['id'];
@@ -34,16 +34,16 @@ if(isset($_POST['add_to_cart'])){
    $product_image = $_POST['product_image'];
    $product_quantity = $_POST['product_quantity'];
 
-   $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE product_id = '$id' AND user_id = '$user_id'") or die('query failed');
+   $check_cart_numbers = mysqli_query($conn, "SELECT * FROM `cart` WHERE product_id = '$id' AND user_id = '$user_id'") or die(mysqli_error($conn));
 
    if(mysqli_num_rows($check_cart_numbers) > 0){
       $message[] = 'already added to cart!';
    }else{
-      mysqli_query($conn, "INSERT INTO `cart`(user_id, product_id, price, quantity, image) VALUES('$user_id', '$id', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
+      mysqli_query($conn, "INSERT INTO `cart`(user_id, product_id, price, quantity, image) VALUES('$user_id', '$id', '$product_price', '$product_quantity', '$product_image')") or die(mysqli_error($conn));
       $message[] = 'product added to cart!';
    }
    }
-   $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name") or die('query failed');
+   $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name") or die(mysqli_error($conn));
    
 
 ?>
@@ -92,16 +92,16 @@ if(isset($_POST['add_to_cart'])){
     
          $select=$_POST['select'];
          if ($select == "all") {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name") or die(mysqli_error($conn));
          }
          else if ($select == "book") {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 1 ORDER BY name") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 1 ORDER BY name") or die(mysqli_error($conn));
          }
          else if ($select == "manga") {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 2 ORDER BY name") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 2 ORDER BY name") or die(mysqli_error($conn));
          }
          else if ($select == "comics") {
-            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 3 ORDER BY name") or die('query failed');
+            $select_products = mysqli_query($conn, "SELECT * FROM `products` WHERE type_id = 3 ORDER BY name") or die(mysqli_error($conn));
          }
          
           if(mysqli_num_rows($select_products) > 0){
@@ -109,8 +109,8 @@ if(isset($_POST['add_to_cart'])){
       ?>
      <form action="" method="post" class="box">
       <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
-      <div class="name"><a href="books.php#${id}"><?php echo $fetch_products['name']; ?></a></div>
-      <div class="price"><?php echo $fetch_products['price']; ?>руб</div>
+      <div class="name"><a href="book.php?id=<?php echo $fetch_products['id']; ?>"><?php echo $fetch_products['name']; ?></a></div>
+      <div class="price"><?php echo $fetch_products['price']; ?> руб</div>
       <input type="number" min="1" name="product_quantity" value="1" class="qty">
       <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
       <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">

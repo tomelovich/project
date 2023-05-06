@@ -16,8 +16,8 @@ if(isset($_POST['order_btn'])){
    $number = $_POST['number'];
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $method = mysqli_real_escape_string($conn, $_POST['method']);
-   $address = mysqli_real_escape_string($conn, $_POST['country'].', '. $_POST['city'].', '. $_POST['street'].', № '. $_POST['flat'].' - '. $_POST['pin_code']);
-   $placed_on = date('d-M-Y');
+   $address = mysqli_real_escape_string($conn, $_POST['city'].', '. $_POST['street'].', № '. $_POST['flat'].' - '. $_POST['pin_code']);
+   $placed_on = date("d.m.Y");
 
    $cart_total = 0;
    $cart_products[] = '';
@@ -62,7 +62,7 @@ if(isset($_POST['order_btn'])){
          
         
          mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
-         $message[] = "$id_order";
+         $message[] = "Ваш заказ принят!";
       }
    }
    
@@ -150,14 +150,6 @@ if(isset($_POST['order_btn'])){
                <option value="cash on delivery">Наличными курьеру</option>
                <option value="credit card">Карточкой</option>
             </select>
-         </div>
-         <div class="inputBox">
-            <span>Страна :</span>
-            <input type="text" name="country" required placeholder="например: Беларусь">
-         </div>
-         <div class="inputBox">
-            <span>Область :</span>
-            <input type="text" name="state" required placeholder="например: Минская">
          </div>
          <div class="inputBox">
             <span>Город :</span>

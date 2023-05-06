@@ -12,7 +12,7 @@ if(!isset($admin_id)){
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
-   mysqli_query($conn, "DELETE FROM `users` WHERE id = '$delete_id'") or die('query failed');
+   mysqli_query($conn, "DELETE FROM `users` WHERE id = '$delete_id'") or die(mysqli_error($conn));
    header('location:admin_users.php');
 }
 
@@ -51,7 +51,7 @@ if(isset($_GET['delete'])){
          <p> Имя : <span><?php echo $fetch_users['name']; ?></span> </p>
          <p> email : <span><?php echo $fetch_users['email']; ?></span> </p>
          <p> Роль : <span style="color:<?php if($fetch_users['user_type'] == 'admin'){ echo 'var(--orange)'; } ?>"><?php echo $fetch_users['user_type']; ?></span> </p>
-         <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('delete this user?');" class="delete-btn">Удалить пользователя</a>
+         <a href="admin_users.php?delete=<?php echo $fetch_users['id']; ?>" onclick="return confirm('Удалить этого пользователя?');" class="delete-btn">Удалить пользователя</a>
       </div>
       <?php
          };

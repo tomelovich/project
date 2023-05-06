@@ -70,11 +70,11 @@ if(isset($_GET['delete'])){
             <input type="hidden" name="order_id" value="<?php echo $fetch_orders['id']; ?>">
             <select name="update_payment">
                <option value="" selected disabled><?php echo $fetch_orders['payment_status']; ?></option>
-               <option value="pending">в ожидании</option>
-               <option value="completed">завершен</option>
+               <option value="В ожидании">в ожидании</option>
+               <option value="Завершен">завершен</option>
             </select>
             <input type="submit" value="Обновить" name="update_order" class="option-btn">
-            <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" onclick="return confirm('delete this order?');" class="delete-btn">Удалить</a>
+            <a href="admin_orders.php?delete=<?php echo $fetch_orders['id']; ?>" onclick="return confirm('Удалить этот заказ?');" class="delete-btn">Удалить</a>
          </form>
       </div>
       <?php

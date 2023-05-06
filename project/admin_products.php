@@ -13,18 +13,20 @@ if(!isset($admin_id)){
 if(isset($_POST['add_product'])){
 
    $name = mysqli_real_escape_string($conn, $_POST['name']);
+   $author = mysqli_real_escape_string($conn, $_POST['author']);
    $price = $_POST['price'];
    $image = $_FILES['image']['name'];
    $image_size = $_FILES['image']['size'];
    $image_tmp_name = $_FILES['image']['tmp_name'];
    $image_folder = 'uploaded_img/'.$image;
    $book_type = $_POST['book_type'];
-   $select_product_name = mysqli_query($conn, "SELECT name FROM `products` WHERE name = '$name'") or die('query failed');
+   $book_description = $_POST['description'];
+   $select_product_name = mysqli_query($conn, "SELECT name FROM `products` WHERE name = '$name'") or die(mysqli_error($conn));
 
    if(mysqli_num_rows($select_product_name) > 0){
       $message[] = 'product name already added';
    }else{
-      $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, price, image, type_id) VALUES('$name', '$price', '$image', '$book_type')") or die('query failed');
+      $add_product_query = mysqli_query($conn, "INSERT INTO `products`(name, author, price, image, type_id, description) VALUES('$name', '$author','$price', '$image', '$book_type', '$book_description')") or die(mysqli_error($conn));
 
       if($add_product_query){
          if($image_size > 2000000){
@@ -41,10 +43,10 @@ if(isset($_POST['add_product'])){
 
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
-   $delete_image_query = mysqli_query($conn, "SELECT image FROM `products` WHERE id = '$delete_id'") or die('query failed');
+   $delete_image_query = mysqli_query($conn, "SELECT image FROM `products` WHERE id = '$delete_id'") or die(mysqli_error($conn));
    $fetch_delete_image = mysqli_fetch_assoc($delete_image_query);
    unlink('uploaded_img/'.$fetch_delete_image['image']);
-   mysqli_query($conn, "DELETE FROM `products` WHERE id = '$delete_id'") or die('query failed');
+   mysqli_query($conn, "DELETE FROM `products` WHERE id = '$delete_id'") or die(mysqli_error($conn));
    header('location:admin_products.php');
 }
 
@@ -52,9 +54,11 @@ if(isset($_POST['update_product'])){
 
    $update_p_id = $_POST['update_p_id'];
    $update_name = $_POST['update_name'];
+   $update_author = $_POST['update_author'];
    $update_price = $_POST['update_price'];
    $update_book_type = $_POST['update_book_type'];
-   mysqli_query($conn, "UPDATE `products` SET name = '$update_name', price = '$update_price', type_id= '$update_book_type' WHERE id = '$update_p_id'") or die('query failed');
+   $update_book_description = $_POST['update_book_description'];
+   mysqli_query($conn, "UPDATE `products` SET name = '$update_name', author = '$update_author', price = '$update_price', type_id= '$update_book_type', description= '$update_book_description' WHERE id = '$update_p_id'") or die(mysqli_error($conn));
 
    $update_image = $_FILES['update_image']['name'];
    $update_image_tmp_name = $_FILES['update_image']['tmp_name'];
@@ -66,7 +70,7 @@ if(isset($_POST['update_product'])){
       if($update_image_size > 2000000){
          $message[] = 'image file size is too large';
       }else{
-         mysqli_query($conn, "UPDATE `products` SET image = '$update_image' WHERE id = '$update_p_id'") or die('query failed');
+         mysqli_query($conn, "UPDATE `products` SET image = '$update_image' WHERE id = '$update_p_id'") or die(mysqli_error($conn));
          move_uploaded_file($update_image_tmp_name, $update_folder);
          unlink('uploaded_img/'.$update_old_image);
       }
@@ -106,6 +110,7 @@ if(isset($_POST['update_product'])){
    <form action="" method="post" enctype="multipart/form-data">
       <h3>Добавить книгу</h3>
       <input type="text" name="name" class="box" placeholder="Название" required>
+      <input type="text" name="author" class="box" placeholder="Автор" required>
       <input type="number" min="0" name="price" class="box" placeholder="Цена" required>
       <input type="file" name="image" accept="image/jpg, image/jpeg, image/png" class="box" required>
       <select name="book_type" class="box">
@@ -113,6 +118,7 @@ if(isset($_POST['update_product'])){
          <option value="2">Манга</option>
          <option value="3">Комикс</option>
       </select>
+      <input type="text" name="description" class="box" placeholder="Описание" required>
       <input type="submit" value="Добавить" name="add_product" class="btn">
    </form>
 
@@ -127,7 +133,7 @@ if(isset($_POST['update_product'])){
    <div class="box-container">
 
       <?php
-         $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die('query failed');
+         $select_products = mysqli_query($conn, "SELECT * FROM `products`") or die(mysqli_error($conn));
          if(mysqli_num_rows($select_products) > 0){
             while($fetch_products = mysqli_fetch_assoc($select_products)){
       ?>
@@ -153,7 +159,7 @@ if(isset($_POST['update_product'])){
    <?php
       if(isset($_GET['update'])){
          $update_id = $_GET['update'];
-         $update_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$update_id'") or die('query failed');
+         $update_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$update_id'") or die(mysqli_error($conn));
          if(mysqli_num_rows($update_query) > 0){
             while($fetch_update = mysqli_fetch_assoc($update_query)){
    ?>
@@ -162,13 +168,27 @@ if(isset($_POST['update_product'])){
       <input type="hidden" name="update_old_image" value="<?php echo $fetch_update['image']; ?>">
       <img src="uploaded_img/<?php echo $fetch_update['image']; ?>" alt="">
       <input type="text" name="update_name" value="<?php echo $fetch_update['name']; ?>" class="box" required placeholder="Название">
+      <input type="text" name="update_author" value="<?php echo $fetch_update['author']; ?>" class="box" required placeholder="Автор">
       <input type="number" name="update_price" value="<?php echo $fetch_update['price']; ?>" min="0" class="box" required placeholder="Цена">
       <input type="file" class="box" name="update_image" accept="image/jpg, image/jpeg, image/png">
-      <select name="update_book_type" class="box">
-         <option value="1">Книга</option>
-         <option value="2">Манга</option>
-         <option value="3">Комикс</option>
-      </select>
+      
+      <?php
+         $book_type = $fetch_update['type_id'];
+         $book_type_options = array(
+            "1" => "Книга",
+            "2" => "Манга",
+            "3" => "Комикс"
+         );
+
+         $options_html = "";
+         foreach ($book_type_options as $value => $name) {
+            $selected = ($value == $book_type) ? "selected" : "";
+            $options_html .= "<option value=\"$value\" $selected>$name</option>";
+         }
+         echo "<select name=\"update_book_type\" class=\"box\">$options_html</select>";
+      ?>
+      
+      <input type="text" name="update_book_description" value="<?php echo $fetch_update['description']; ?>" class="box" required placeholder="Описание">
       <input type="submit" value="Обновить" name="update_product" class="btn">
       <input type="reset" value="Отменить" id="close-update" class="option-btn">
    </form>

@@ -41,3 +41,25 @@ window.onscroll = () =>{
       document.querySelector('.header .header-2').classList.remove('active');
    }
 }
+var link = document.getElementById("openModal");
+var modal = document.getElementById("myModal");
+
+// Получаем элемент для закрытия модального окна
+var close = document.getElementsByClassName("close")[0];
+
+// Добавляем обработчик события клика на ссылку
+link.onclick = function() {
+  modal.style.display = "block"; // Показываем модальное окно
+}
+
+// Добавляем обработчик события клика на кнопку закрытия
+close.onclick = function() {
+  modal.style.display = "none"; // Скрываем модальное окно
+}
+
+// Добавляем обработчик события клика вне модального окна
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none"; // Скрываем модальное окно
+  }
+}
