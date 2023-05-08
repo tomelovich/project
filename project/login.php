@@ -76,6 +76,7 @@ if(isset($message)){
       <input type="password" name="password" placeholder="Пароль" required class="box">
       <input type="submit" name="submit" value="Войти" class="btn">
       <p>Не зарегистрированы? <a href="register.php">Регистрация</a></p>
+      <a class="recovery" href="recovery.php">Забыли пароль? </a>
    </form>
 
 </div>

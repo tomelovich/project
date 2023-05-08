@@ -60,7 +60,22 @@ if(isset($_POST['add_to_cart'])){
   }
   }
   $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name") or die(mysqli_error($conn));
-  // НЕ ЗАБУДЬ ДОБАВИТЬ АВТОРА КНИГИ!!!!!!!!
+  
+
+  $query = "SELECT rating FROM reviews WHERE product_id = $id";
+    $result_rating = mysqli_query($conn, $query);
+    $ratings = mysqli_fetch_all($result_rating, MYSQLI_ASSOC);
+
+    $sum = 0;
+    foreach ($ratings as $rating) {
+        $sum += $rating['rating'];
+    }
+    if (count($ratings) > 0 ) {
+        $average_rating = $sum / count($ratings);
+    }
+    else {
+        $average_rating = 0;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +103,10 @@ if(isset($_POST['add_to_cart'])){
           <button type="submit" class="btn" value="в корзину" name="add_to_cart">В корзину</button>
         </div>
         <div class="product__content">
-          <h3 class="product__title"><?php echo $fetch_products['name']; ?></h3>
+          <h3 class="product__title"><?php echo $fetch_products['name']; ?>
+            <span class="product__price-value" > ( <?php echo number_format($average_rating, 1); ?>)</span>
+         </h3>
+          
           <p class="product__description"><?php echo $fetch_products['author']; ?></p>
           <span class="product__price-value" ><?php echo $fetch_products['price']; ?> руб</span>
           <p class="description-book"><?php echo $fetch_products['description']; ?></p>

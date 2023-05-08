@@ -3,8 +3,6 @@
     include 'config.php';
 
     if (session_status() == PHP_SESSION_NONE) {
-    // Сессии еще не запущены
-    // Можно выполнить инициализацию сессии
     session_start();
     } else {
     // Сессия уже запущена
@@ -32,30 +30,73 @@
     $sql = "SELECT * FROM users WHERE id = $user_id ";
     $result_user = mysqli_query($conn, $sql);
 
-    // if (mysqli_num_rows($result) == 0) {
-    //     header("Location: products.php");
-        
-    //     exit();
-    // }
     $fetch_user = mysqli_fetch_assoc($result_user);
     $fetch_reviews = mysqli_fetch_assoc($result);
     $date = date("d.m.Y H:i:s");
-if(isset($_POST['post_review'])){
+    if(isset($_POST['post_review'])){
 
-    $name = mysqli_real_escape_string($conn, $fetch_user['name']);
-    $text = $_POST['text'];
-    $rating = mysqli_real_escape_string($conn, $_POST['rating']);
- 
-    $select_review = mysqli_query($conn, "SELECT * FROM `reviews` WHERE user_id = '$user_id' AND product_id = '$id'") or die(mysqli_error($conn));
- 
-    if(mysqli_num_rows($select_review) > 0){
-       $message[] = 'Вы уже оставляли отзыв!';
-    }else{
-       mysqli_query($conn, "INSERT INTO `reviews`(product_id, rating, user_id, text, date) VALUES('$id', '$rating', '$user_id', '$text', '$date')") or die(mysqli_error($conn));
-       $message[] = 'Отзыв опубликован!';
+        $name = mysqli_real_escape_string($conn, $fetch_user['name']);
+        $text = $_POST['text'];
+        $rating = mysqli_real_escape_string($conn, $_POST['rating']);
+    
+        $select_review = mysqli_query($conn, "SELECT * FROM `reviews` WHERE user_id = '$user_id' AND product_id = '$id'") or die(mysqli_error($conn));
+    
+        if(mysqli_num_rows($select_review) > 0){
+        $message[] = 'Вы уже оставляли отзыв!';
+        }else{
+        mysqli_query($conn, "INSERT INTO `reviews`(product_id, rating, user_id, text, date) VALUES('$id', '$rating', '$user_id', '$text', '$date')") or die(mysqli_error($conn));
+        $message[] = 'Отзыв опубликован!';
+        }
+    
     }
- 
- }
+    $query = "SELECT rating FROM reviews WHERE product_id = $id";
+    $result_rating = mysqli_query($conn, $query);
+    $ratings = mysqli_fetch_all($result_rating, MYSQLI_ASSOC);
+
+    $sum = 0;
+    foreach ($ratings as $rating) {
+        $sum += $rating['rating'];
+    }
+    if (count($ratings) > 0 ) {
+        $average_rating = $sum / count($ratings);
+    }
+    else {
+        $average_rating = 0;
+    }
+
+    $displaying_number = "SELECT COUNT(*) AS num_reviews FROM reviews WHERE product_id = '$id'";
+    $number_rev = mysqli_query($conn, $displaying_number);
+    $result = mysqli_fetch_array($number_rev);
+    $numb_rev = $result['num_reviews'];
+    //-----------
+    
+$results = mysqli_query($conn, $query);
+
+// Создаем массив с процентным соотношением рейтингов
+$ratings_percentages = array(
+  '5' => 0,
+  '4' => 0,
+  '3' => 0,
+  '2' => 0,
+  '1' => 0
+);
+
+$total_ratings = mysqli_num_rows($results);
+
+// Считаем количество отзывов для каждого рейтинга
+while ($row = mysqli_fetch_assoc($results)) {
+  $rating = $row['rating'];
+  $ratings_percentages[$rating]++;
+}
+
+// Вычисляем процентное соотношение и сохраняем в массиве
+foreach ($ratings_percentages as $key => $value) {
+  if ($total_ratings > 0) {
+    $ratings_percentages[$key] = round(($value / $total_ratings) * 100);
+  }
+}
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,6 +118,7 @@ if(isset($_POST['post_review'])){
 <?php include 'header.php'; ?>
     
     <h2 class="title">Отзывы</h2>
+    <a href="book.php?id=<?php echo $id ?>" class="openModal">Вернуться на страницу товара</a>
     <a href="#" id="openModal">Оставить отзыв</a>
 
 <div id="myModal" class="modal">
@@ -106,7 +148,47 @@ if(isset($_POST['post_review'])){
         </form>
     </div>
 </div>
- 
+<div class="feedback_statistics">
+        <div class="rating_book">
+            <b>Средняя оценка: <?php echo number_format($average_rating, 1); ?></b>
+            <!-- <p><?php echo $numb_rev ?> отзывов</p> -->
+            <?php 
+                if ($numb_rev == 1) {
+                    echo "<p>" . $numb_rev . " отзыв</p>";
+                } elseif ($numb_rev > 1 && $numb_rev < 5) {
+                    echo "<p>" . $numb_rev . " отзыва</p>";
+                } else {
+                    echo "<p>" . $numb_rev . " отзывов</p>";
+                }
+            
+            ?>
+        </div>
+        <div class="rating_scale">
+            <div class="number_stars">
+                <p>5 звёзд</p>
+                <p>4 звёзды</p>
+                <p>3 звёзды</p>
+                <p>2 звёзды</p>
+                <p>1 звёзда</p>
+            </div>
+            <div class="percentage_scale">
+            <?php 
+                    foreach ($ratings_percentages as $key => $value) {
+                        echo "<progress value=\"$value\" max=\"100\" title=\"Прогресс: $value%\"></progress>";
+                    } 
+                ?>
+            </div>
+            <div class="quantity">
+                <?php 
+                    foreach ($ratings_percentages as $key => $value) {
+                        echo "<span>" . $value . "%</span>";
+                    } 
+                ?>
+            </span>
+               
+            </div>
+        </div>
+    </div>
 <?php  
     $select_reviews = mysqli_query($conn, "SELECT * FROM `reviews` WHERE product_id = '$id' ORDER BY id DESC") or die(mysqli_error($conn));
     if(mysqli_num_rows($select_reviews) > 0){
@@ -130,6 +212,8 @@ if(isset($_POST['post_review'])){
          echo '<p class="empty">Нет отзывов!</p>';
       }
       ?>
+    
+
         <?php include 'footer.php'; ?>
 
     <!-- custom js file link  -->

@@ -221,10 +221,14 @@ section{
 }
 
 .form-container form p a{
-   color:var(--purple);
+   color:var(--orange);
 }
-
-.form-container form p a:hover{
+.recovery {
+   padding-top: 1.5rem;
+   font-size: 2rem;
+   color: var(--orange);
+}
+.form-container form p a:hover, .recovery:hover{
    text-decoration: underline;
 }
 
@@ -1132,16 +1136,24 @@ section{
    overflow: auto; /* добавляем прокрутку, если контент выходит за границы окна */
    background-color: rgba(0, 0, 0, 0.4); /* темный фон, чтобы подчеркнуть модальное окно */
  }
- #openModal {
-   display: inline-block;
-   margin: 1rem;
+ #openModal, .openModal {
+   display: block;
+   margin: 0 auto 10px;
    padding:1rem 3rem;
    cursor: pointer;
+   width: 25%;
+   text-align: center;
    color:var(--white);
    font-size: 1.8rem;
    border-radius: .5rem;
    text-transform: capitalize;
    background-color: #182450;
+ }
+ #openModal {
+   background-color: var(--orange);
+ }
+ #openModal:hover, .openModal:hover {
+   background-color: var(--black);
  }
  /* Стили для контента модального окна */
  .modal-content {
@@ -1243,4 +1255,48 @@ section{
 }
 .rating-items p {
    font-size: 16px;
+}
+.feedback_statistics {
+   text-align: center;
+   padding: 10px;
+   width: 25%;
+   font-size: 17px;
+   margin: 0 auto;
+   box-shadow:var(--box-shadow); 
+}
+.rating_scale {
+   display: flex;
+   justify-content: space-between;
+   
+}
+.number_stars {
+   
+   text-align: left;
+}
+
+.percentage_scale {
+   display: flex;
+   flex-direction: column;
+   
+}
+progress {
+   margin-top: 13px;
+}
+progress::-webkit-progress-value {
+   background-color: #182450;
+   border-radius: 10px;
+ }
+ 
+ /* Незаполненная часть */
+ progress::-webkit-progress-bar {
+   background-color: #ddd;
+   border-radius: 10px;
+ }
+.quantity {
+   display: flex;
+   flex-direction: column;
+   text-align: left;
+}
+.rating_scale p, span {
+   margin-top: 10px;
 }
