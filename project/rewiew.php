@@ -30,8 +30,11 @@
     $sql = "SELECT * FROM users WHERE id = $user_id ";
     $result_user = mysqli_query($conn, $sql);
 
+    
     $fetch_user = mysqli_fetch_assoc($result_user);
     $fetch_reviews = mysqli_fetch_assoc($result);
+    $id_author = $fetch_reviews['user_id'];
+     
     $date = date("d.m.Y H:i:s");
     if(isset($_POST['post_review'])){
 
@@ -189,29 +192,54 @@ foreach ($ratings_percentages as $key => $value) {
             </div>
         </div>
     </div>
-<?php  
-    $select_reviews = mysqli_query($conn, "SELECT * FROM `reviews` WHERE product_id = '$id' ORDER BY id DESC") or die(mysqli_error($conn));
-    if(mysqli_num_rows($select_reviews) > 0){
+    <?php  
+$select_reviews = mysqli_query($conn, "SELECT * FROM `reviews` WHERE product_id = '$id' ORDER BY id DESC") or die(mysqli_error($conn));
+if(mysqli_num_rows($select_reviews) > 0){
+        
     while($fetch_reviews = mysqli_fetch_assoc($select_reviews)){
+        $author_id = $fetch_reviews['user_id'];
+        $author = "SELECT name FROM users WHERE id = $author_id";
+        $result_author = mysqli_query($conn, $author);
+        $fetch_author = mysqli_fetch_assoc($result_author);
+
+        // Получение ответа на отзыв
+        $review_id = $fetch_reviews['id'];
+        $reply_query = "SELECT * FROM admin_replies WHERE review_id = $review_id";
+        $reply_result = mysqli_query($conn, $reply_query);
+        $fetch_reply = mysqli_fetch_assoc($reply_result);
+        $reply_text = $fetch_reply['reply_text'];
+        $reply_date = $fetch_reply['date'];
 ?>
+
 <div class="rating-items">
-		
-	<div class="rating-mini">
-		<span class="<?php if (ceil($fetch_reviews['rating']) >= 1) echo 'active'; ?>"></span>	
-		<span class="<?php if (ceil($fetch_reviews['rating']) >= 2) echo 'active'; ?>"></span>    
-		<span class="<?php if (ceil($fetch_reviews['rating']) >= 3) echo 'active'; ?>"></span>  
-		<span class="<?php if (ceil($fetch_reviews['rating']) >= 4) echo 'active'; ?>"></span>    
-		<span class="<?php if (ceil($fetch_reviews['rating']) >= 5) echo 'active'; ?>"></span>
-	</div>
+    <div class="rating-mini">
+        <span class="<?php if (ceil($fetch_reviews['rating']) >= 1) echo 'active'; ?>"></span>	
+        <span class="<?php if (ceil($fetch_reviews['rating']) >= 2) echo 'active'; ?>"></span>    
+        <span class="<?php if (ceil($fetch_reviews['rating']) >= 3) echo 'active'; ?>"></span>  
+        <span class="<?php if (ceil($fetch_reviews['rating']) >= 4) echo 'active'; ?>"></span>    
+        <span class="<?php if (ceil($fetch_reviews['rating']) >= 5) echo 'active'; ?>"></span>
+    </div>
     <p><?php echo $fetch_reviews['text']; ?></p>
-	<p><?php echo $fetch_user['name']; ?> </p> <p><?php echo $fetch_reviews['date']; ?></p>
+    <p><?php echo $fetch_author['name']; ?></p>
+    <p><?php echo $fetch_reviews['date']; ?></p>
+
+    <!-- Вывод ответа на отзыв, если он есть -->
+    <?php if ($reply_text) { ?>
+        <div class="admin-reply">
+            <p>Ответ от администратора:</p>
+            <p><?php echo $reply_text; ?></p>
+            <p><?php echo $reply_date; ?></p>
+        </div>
+    <?php } ?>
 </div>
+
+
 <?php
-         }
-      }else{
-         echo '<p class="empty">Нет отзывов!</p>';
-      }
-      ?>
+    }
+} else {
+    echo '<p class="empty">Нет отзывов!</p>';
+}
+?>
     
 
         <?php include 'footer.php'; ?>

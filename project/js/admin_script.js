@@ -16,9 +16,26 @@ window.onscroll = () =>{
    accountBox.classList.remove('active');
 }
 
-const modal = document.querySelector('.modal');
-const modalIcon = document.querySelector('.modal_icon');
+const openModalBtns = document.querySelectorAll('.openModal');
+const closeModalBtns = document.querySelectorAll('.close');
 
-modal.onclick = () =>{
-   modalIcon.style.display = modalIcon.style.display === 'block' ? 'none' : 'block';
+openModalBtns.forEach((openModalBtn) => {
+    openModalBtn.onclick = function() {
+        const reviewId = this.dataset.reviewId;
+        const modal = document.getElementById(`myModal-${reviewId}`);
+        modal.style.display = 'block';
+    };
+});
+
+closeModalBtns.forEach((closeModalBtn) => {
+    closeModalBtn.onclick = function() {
+        const modal = this.closest('.modal');
+        modal.style.display = 'none';
+    };
+});
+
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
 };

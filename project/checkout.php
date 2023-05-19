@@ -22,12 +22,12 @@ if(isset($_POST['order_btn'])){
    $cart_total = 0;
    $cart_products[] = '';
 
-   $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+   $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
    
    if(mysqli_num_rows($cart_query) > 0){
       while($cart_item = mysqli_fetch_assoc($cart_query) ){
          $product_id = $cart_item['product_id'];
-         $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die('query failed');
+         $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die(mysqli_error($conn));
          while($product_item = mysqli_fetch_assoc($product_query)){
             $cart_products[] = $product_item['name'].' ('.$cart_item['quantity'].') ';
          }
@@ -37,9 +37,8 @@ if(isset($_POST['order_btn'])){
       }
    }
 
-   $total_products = implode(', ',$cart_products);
 
-   $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_products = '$total_products' AND total_price = '$cart_total'") or die('query failed');
+   $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_price = '$cart_total'") or die(mysqli_error($conn));
 
    if($cart_total == 0){
       $message[] = 'Ваша корзина пуста!';
@@ -47,7 +46,7 @@ if(isset($_POST['order_btn'])){
       if(mysqli_num_rows($order_query) > 0){
          $message[] = 'заказ уже сделан!'; 
       }else{
-         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_products, total_price, placed_on) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$total_products', '$cart_total', '$placed_on')") or die('query failed');
+         mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_price, placed_on, payment_status) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$cart_total', '$placed_on', 'В ожидании')") or die(mysqli_error($conn));
          $id_order = mysqli_insert_id($conn);
 
 
@@ -61,7 +60,7 @@ if(isset($_POST['order_btn'])){
          
          
         
-         mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+         mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
          $message[] = "Ваш заказ принят!";
       }
    }
@@ -98,7 +97,7 @@ if(isset($_POST['order_btn'])){
     <?php  
     /*
       $grand_total = 0;
-      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
       if(mysqli_num_rows($select_cart) > 0){
          while($fetch_cart = mysqli_fetch_assoc($select_cart)){
             $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
@@ -107,11 +106,11 @@ if(isset($_POST['order_btn'])){
    ?>
    <?php  
       $grand_total = 0;
-      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
+      $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
       if(mysqli_num_rows($select_cart) > 0){
          while($fetch_cart = mysqli_fetch_assoc($select_cart)){
             $product_id = $fetch_cart['product_id'];
-            $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die('query failed');
+            $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die(mysqli_error($conn));
             while($product_item = mysqli_fetch_assoc($product_query)){
                $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
                $grand_total += $total_price;

@@ -36,6 +36,7 @@ if(isset($message)){
                $cart_rows_number = mysqli_num_rows($select_cart_number); 
             ?>
             <a href="cart.php"> <i class="fas fa-shopping-cart"></i> <span>(<?php echo $cart_rows_number; ?>)</span> </a>
+            <a href="messages.php" class="fa fa-envelope"></a>
          </div>
 
          <div class="user-box">

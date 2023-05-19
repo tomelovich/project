@@ -42,7 +42,7 @@ if(!isset($admin_id)){
       <div class="box">
          <?php
             $total_pendings = 0;
-            $select_pending = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'pending'") or die('query failed');
+            $select_pending = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'В ожидании'") or die('query failed');
             if(mysqli_num_rows($select_pending) > 0){
                while($fetch_pendings = mysqli_fetch_assoc($select_pending)){
                   $total_price = $fetch_pendings['total_price'];
@@ -57,7 +57,7 @@ if(!isset($admin_id)){
       <div class="box">
          <?php
             $total_completed = 0;
-            $select_completed = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'completed'") or die('query failed');
+            $select_completed = mysqli_query($conn, "SELECT total_price FROM `orders` WHERE payment_status = 'Завершен'") or die('query failed');
             if(mysqli_num_rows($select_completed) > 0){
                while($fetch_completed = mysqli_fetch_assoc($select_completed)){
                   $total_price = $fetch_completed['total_price'];
@@ -122,7 +122,14 @@ if(!isset($admin_id)){
          <h3><?php echo $number_of_messages; ?></h3>
          <p>Новые сообщения</p>
       </div>
-
+      <div class="box">
+         <?php 
+            $select_reviews = mysqli_query($conn, "SELECT * FROM `reviews`") or die('query failed');
+            $number_of_reviews = mysqli_num_rows($select_reviews);
+         ?>
+         <h3><?php echo $number_of_reviews; ?></h3>
+         <p>Новые отзывы</p>
+      </div>
    </div>
 
 </section>

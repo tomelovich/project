@@ -76,7 +76,7 @@ if(isset($_POST['add_to_cart'])){
       ?>
      <form action="" method="post" class="box">
       <img class="image" src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="">
-      <div class="name"><a href="book.php?id=<?php echo $fetch_products['id']; ?>"><?php echo $fetch_products['name']; ?></a></div>
+      <div class="name"><a title="<?php echo $fetch_products['name']; ?>" href="book.php?id=<?php echo $fetch_products['id']; ?>"><?php echo $fetch_products['name']; ?></a></div>
       <div class="price"><?php echo $fetch_products['price']; ?> руб</div>
       <input type="number" min="1" name="product_quantity" value="1" class="qty">
       <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
@@ -109,7 +109,7 @@ if(isset($_POST['add_to_cart'])){
       <div class="content about-box">
          <h3>О нас</h3>
          <p>Мы - это интернет-магазин, занимающийся продажей книг. Наша компания была основана в 2022 году с целью предоставить покупателям широкий выбор литературы и удобный сервис покупок.</p>
-         <a href="about.php" class="btn">Читать ещё</a>
+         <a href="about.php" class="btn">Подробнее</a>
       </div>
 
    </div>

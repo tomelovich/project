@@ -1256,6 +1256,21 @@ section{
 .rating-items p {
    font-size: 16px;
 }
+
+.admin-reply {
+   margin: 1rem 1rem 1rem 3rem;
+   padding: 10px;
+   background-color: #f5f5f5;
+   border: 1px solid #ccc;
+}
+
+.admin-reply p {
+   font-size: 14px;
+   margin-bottom: 5px;
+}
+
+
+
 .feedback_statistics {
    text-align: center;
    padding: 10px;
@@ -1299,4 +1314,48 @@ progress::-webkit-progress-value {
 }
 .rating_scale p, span {
    margin-top: 10px;
+}
+.chat-container {
+   max-width: 600px;
+   margin: 0 auto;
+   padding: 20px;
+}
+.chat-container h2 {
+   text-align: center;
+}
+.chat-form {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 20px;
+}
+.chat-form input,
+.chat-form textarea {
+   margin-bottom: 10px;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   font-size: 16px;
+}
+.chat-form textarea {
+   resize: vertical;
+   min-height: 100px;
+}
+.chat-form input[type="submit"] {
+   background-color: #4CAF50;
+   color: white;
+   cursor: pointer;
+}
+.chat-messages {
+   border: 1px solid #ccc;
+   padding: 10px;
+   max-height: 300px;
+   overflow-y: scroll;
+}
+.chat-message {
+   margin-bottom: 10px;
+   padding-bottom: 10px;
+   border-bottom: 1px solid #ccc;
+}
+.chat-message span {
+   font-weight: bold;
 }

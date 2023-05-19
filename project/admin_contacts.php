@@ -54,6 +54,18 @@ if(isset($_GET['delete'])){
       <p> номер : <span><?php echo $fetch_message['number']; ?></span> </p>
       <p> email : <span><?php echo $fetch_message['email']; ?></span> </p>
       <p> Текст сообщения : <span><?php echo $fetch_message['message']; ?></span> </p>
+      <a href="#" class="btn openModal" data-review-id="<?php echo $fetch_message['id']; ?>">Ответить</a>
+      <div id="myModal-<?php echo $fetch_message['id']; ?>" class="modal">
+         <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1>Ответ на сообщение</h1>
+            <form action="admin_reply_submit.php" method="POST">
+               <input type="hidden" name="message_id" value="<?php echo $fetch_message['id']; ?>">
+               <textarea name="reply_text" placeholder="Введите ваш ответ" required></textarea>
+               <button type="submit" name="submit_message" class="btn">Отправить</button>
+            </form>
+         </div>
+      </div>
       <a href="admin_contacts.php?delete=<?php echo $fetch_message['id']; ?>" onclick="return confirm('Удалить это сообщение?');" class="delete-btn">Удалить сообщение</a>
    </div>
    <?php
