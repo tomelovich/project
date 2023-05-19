@@ -81,10 +81,13 @@ $result = mysqli_query($conn, $sql);
          <p><?php echo $row['message']; ?></p>
          <p class="timestamp">Отправлено: <?php echo $row['timestamp']; ?></p>
          <?php if($row['reply_text']) { ?>
-            <p>Ответ администратора:</p>
-            <p><?php echo $row['reply_text']; ?></p>
-            <p class="timestamp">Отправлено: <?php echo $row['reply_timestamp']; ?></p>
-            <p class="admin-marker">Администратор</p>
+            <div class="admin-reply">
+               <p>Ответ администратора:</p>
+               <p><?php echo $row['reply_text']; ?></p>
+               <p class="timestamp">Отправлено: <?php echo $row['reply_timestamp']; ?></p>
+               <p class="admin-marker">Администратор</p>
+            </div>
+            
          <?php } ?>
       </div>
    <?php

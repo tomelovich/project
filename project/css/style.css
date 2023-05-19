@@ -619,7 +619,7 @@ section{
    border-radius: .5rem;
    padding:2rem;
    max-width: 50rem;
-   margin:0 auto;
+   margin:0 auto 1rem auto;
    text-align: center;
    box-shadow: var(--box-shadow);
 }
@@ -1358,4 +1358,22 @@ progress::-webkit-progress-value {
 }
 .chat-message span {
    font-weight: bold;
+}
+.message-box {
+   border-radius: .5rem;
+   background-color: var(--white);
+   box-shadow: 4px 0px 8px 0px rgb(182 182 182 / 20%);
+   padding:2rem;
+   margin: 2rem;
+   font-size: 16px;
+   text-align: left;
+   position: relative;
+}
+.contact h3{
+   font-size: 2.5rem;
+   text-transform: uppercase;
+   margin-bottom: 1rem;
+   text-align: center;
+   color:var(--black);
+   font-family: 'Playfair Display', serif;
 }
