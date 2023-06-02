@@ -395,12 +395,36 @@ section{
    margin:0 auto;
    align-items: stretch;
 }
+@media (max-width: 768px) {
+   .orders .box-container{
+      grid-template-columns: repeat(auto-fit, 32rem);
+   }
+}
 
+@media (max-width: 576px) {
+   .orders .box-container{
+      grid-template-columns: repeat(auto-fit, 27rem);
+   }
+}
 .btn_ord {
    display: block;
    margin: 1rem auto;
    width: 20%;
    text-align: center;
+}
+
+@media (max-width: 768px) {
+   .btn_ord {
+      width: 50%;
+      font-size: 1.5rem;
+   }
+}
+
+@media (max-width: 576px) {
+   .btn_ord {
+      width: 100%;
+      font-size: 1.2rem;
+   }
 }
 .orders .box-container .box{
    background-color: var(--white);
@@ -605,8 +629,35 @@ section{
    font-size: 18px;
    text-align: center;
    color: var(--red);
+   
 }
-
+@media (max-width: 1200px) {
+   .form-container,
+   .statistics {
+      right: 1rem;
+      width: 35%;
+      font-size: 8px;
+   }
+   .form-container input[type="date"] {
+      font-size: 11px;
+   }
+   .form-container button {
+      padding: 8px;
+      font-size: 11px;
+   }
+   .label_input {
+      width: 100%;
+      flex-direction: column;
+      padding: 0.5rem;
+      align-items: center;
+      font-size: 11px;
+      justify-content: start;
+   }
+   .statistics {
+      top: 43%;
+   }
+   
+}
 /* ----------- */
 
 .rewiews .box-container{
@@ -662,7 +713,29 @@ section{
    width: 190px;
    margin: 1rem;
 }
-
+@media (max-width: 1200px) {
+   .rewiews .filter {
+      position: fixed;
+      border-radius: .5rem;
+      width: 380px;
+      top: 7%;
+      left:50%; 
+      margin-left:-190px;
+      font-size: 11px;
+      
+      padding: 1rem;
+      text-align: center;
+   }
+   .filter select[name="product_id"], .filter select[name="rating"], .filter select[name="time_filter"] {
+      padding: 5px;
+      font-size: 11px;
+      width: 190px;
+      margin: 0.5rem;
+   }
+   .rewiews .box-container{
+      margin-top: 40%;
+   }
+}
 .filter select[name="product_id"] option {
    /* Стили для <option> */
    background-color: #f2f2f2;
