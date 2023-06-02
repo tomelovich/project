@@ -17,10 +17,10 @@ if(isset($message)){
 
    <div class="header-2">
       <div class="flex">
-         <a href="home.php" class="logo"><img src="./images/img/header/логотип.svg" width="80px" alt=""></a>
+         <a href="index.php" class="logo"><img src="./images/img/header/логотип.svg" width="80px" alt=""></a>
 
          <nav class="navbar">
-            <a href="home.php">Главная</a>
+            <a href="index.php">Главная</a>
             <a href="about.php">О нас</a>
             <a href="shop.php">Каталог</a>
             <a href="contact.php">Связаться с нами</a>
@@ -36,7 +36,6 @@ if(isset($message)){
                $cart_rows_number = mysqli_num_rows($select_cart_number); 
             ?>
             <a href="cart.php"> <i class="fas fa-shopping-cart"></i> <span>(<?php echo $cart_rows_number; ?>)</span> </a>
-            <a href="messages.php" class="fa fa-envelope"></a>
          </div>
 
          <div class="user-box">

@@ -26,12 +26,19 @@ if(isset($_POST['submit'])){
          $_SESSION['user_name'] = $row['name'];
          $_SESSION['user_email'] = $row['email'];
          $_SESSION['user_id'] = $row['id'];
-         header('location:home.php');
+         header('location:index.php');
 
       }
 
    }else{
-      $message[] = 'incorrect email or password!';
+      $message[] = 'Неправильный email или пароль!';
+   }
+
+   $min_password_length = 8;
+
+   // Проверка минимальной длины пароля
+   if (strlen($_POST['password']) < $min_password_length) {
+      $message[] = 'Пароль должен содержать не менее ' . $min_password_length . ' символов!';
    }
 
 }
@@ -73,7 +80,7 @@ if(isset($message)){
    <form action="" method="post">
       <h3>Авторизация</h3>
       <input type="email" name="email" placeholder="Email" required class="box">
-      <input type="password" name="password" placeholder="Пароль" required class="box">
+      <input type="password" name="password" placeholder="Пароль" required minlength="8" class="box">
       <input type="submit" name="submit" value="Войти" class="btn">
       <p>Не зарегистрированы? <a href="register.php">Регистрация</a></p>
       <a class="recovery" href="recovery.php">Забыли пароль? </a>

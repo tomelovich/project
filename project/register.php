@@ -13,14 +13,21 @@ if(isset($_POST['submit'])){
    $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email' AND password = '$pass'") or die('query failed');
 
    if(mysqli_num_rows($select_users) > 0){
-      $message[] = 'user already exist!';
+      $message[] = 'Пользователь уже существует!';
    }else{
       if($pass != $cpass){
-         $message[] = 'confirm password not matched!';
+         $message[] = 'Подтверждение пароля не совпадает!';
       }else{
-         mysqli_query($conn, "INSERT INTO `users`(name, email, password, user_type) VALUES('$name', '$email', '$cpass', '$user_type')") or die('query failed');
-         $message[] = 'registered successfully!';
-         header('location:login.php');
+         $min_password_length = 8;
+
+         // Проверка минимальной длины пароля
+         if (strlen($_POST['password']) < $min_password_length) {
+            $message[] = 'Пароль должен содержать не менее ' . $min_password_length . ' символов!';
+         } else {
+            mysqli_query($conn, "INSERT INTO `users`(name, email, password, user_type) VALUES('$name', '$email', '$cpass', '$user_type')") or die('query failed');
+            $message[] = 'Регистрация прошла успешно!';
+            header('location:login.php');
+         }
       }
    }
 
@@ -45,8 +52,6 @@ if(isset($_POST['submit'])){
 </head>
 <body>
 
-
-
 <?php
 if(isset($message)){
    foreach($message as $message){
@@ -66,7 +71,7 @@ if(isset($message)){
       <h3>Регистрация</h3>
       <input type="text" name="name" placeholder="Имя" required class="box">
       <input type="email" name="email" placeholder="Email" required class="box">
-      <input type="password" name="password" placeholder="Пароль" required class="box">
+      <input type="password" name="password" placeholder="Пароль" required minlength="8" class="box">
       <input type="password" name="cpassword" placeholder="Повторите" required class="box">
       <select name="user_type" class="box">
          <option value="user">user</option>
