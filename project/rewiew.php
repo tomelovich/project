@@ -10,9 +10,7 @@
 
     $user_id = $_SESSION['user_id'];
 
-    if(!isset($user_id)){
-    header('location:login.php');
-    }
+  
     // Получение ID товара из параметра URL-адреса
     if (isset($_GET['id'])) {
         $id = $_GET['id'];
@@ -145,7 +143,12 @@ foreach ($ratings_percentages as $key => $value) {
             <div class="review_content">
                 <label>Комментарий</label>
                 <textarea name="text" rows="10"></textarea>
-                <button type="submit" class="btn" value="Опубликовать" name="post_review">Опубликовать</button>
+                <?php if(isset($user_id)) { ?>
+                    <button type="submit" class="btn" value="Опубликовать" name="post_review">Опубликовать</button>
+                <?php } else { ?>
+                    <button type="submit" class="btn" value="Опубликовать" name="post_review" disabled>Опубликовать</button>
+                <?php } ?>
+                
             </div>
             
         </form>

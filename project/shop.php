@@ -6,20 +6,7 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
-   header('location:login.php');
-}
-// if(isset($_POST['product_name'])){
-//    $id = 3;
-//    $sql = "SELECT * FROM products WHERE id='$id' ";
-//    $result = mysqli_query($conn, $sql);
-//    if (mysqli_num_rows($result) > 0) {
-//        $row = mysqli_fetch_assoc($result);
-//        echo json_encode($row);
-//    } else {
-//        echo "0";
-//    }
-// }
+
    
 if(isset($_POST['add_to_cart'])){
 
@@ -115,7 +102,11 @@ if(isset($_POST['add_to_cart'])){
       <input type="hidden" name="product_name" value="<?php echo $fetch_products['name']; ?>">
       <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
       <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
+      <?php if(isset($user_id)) { ?>
       <input type="submit" value="В корзину" name="add_to_cart" class="btn">
+      <?php } else { ?>
+      <input type="submit" value="В корзину" name="add_to_cart" class="btn" disabled>
+      <?php } ?>
      </form>
       <?php
          }

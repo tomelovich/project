@@ -12,9 +12,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
-   header('location:login.php');
-}
+
 // Получение ID товара из параметра URL-адреса
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -100,7 +98,12 @@ if(isset($_POST['add_to_cart'])){
         <div class="book_image">
           <img src="uploaded_img/<?php echo $fetch_products['image']; ?>" alt="" class="product__img">
           <input type="number" min="1" name="product_quantity" value="1" class="qty">
-          <button type="submit" class="btn" value="в корзину" name="add_to_cart">В корзину</button>
+          <?php if(isset($user_id)) { ?>
+         <input type="submit" value="В корзину" name="add_to_cart" class="btn">
+      <?php } else { ?>
+         <input type="submit" value="В корзину" name="add_to_cart" class="btn" disabled>
+      <?php } ?>
+         
         </div>
         <div class="product__content">
           <h3 class="product__title"><?php echo $fetch_products['name']; ?>

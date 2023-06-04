@@ -5,36 +5,35 @@ session_start();
 
 $user_id = $_SESSION['user_id'];
 
-if(!isset($user_id)){
-   header('location:login.php');
-}
 $sql = "SELECT * FROM users WHERE id = $user_id ";
-    $result_user = mysqli_query($conn, $sql);
+$result_user = mysqli_query($conn, $sql);
 
-    
-    $fetch_user = mysqli_fetch_assoc($result_user);
-if(isset($_POST['send'])){
-   $name = $fetch_user['name'];
-   $email = $fetch_user['email'];
-   $number = $_POST['number'];
-   // $timestamp = date('Y-m-d H:i:s');
-   $msg = mysqli_real_escape_string($conn, $_POST['message']);
+if ($result_user) {
+   $fetch_user = mysqli_fetch_assoc($result_user);
 
-   $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE name = '$name' AND email = '$email' AND message = '$msg'") or die(mysqli_error($conn));
+   if (isset($_POST['send'])) {
+      $name = $fetch_user['name'];
+      $email = $fetch_user['email'];
+      $number = $_POST['number'];
+      $msg = mysqli_real_escape_string($conn, $_POST['message']);
 
-   if(mysqli_num_rows($select_message) > 0){
-      $message[] = 'message sent already!';
-   }else{
-      mysqli_query($conn, "INSERT INTO `message`(user_id, name, email, message, timestamp) VALUES('$user_id', '$name', '$email', '$msg', NOW())") or die(mysqli_error($conn));
-      $message[] = 'message sent successfully!';
+      $select_message = mysqli_query($conn, "SELECT * FROM `message` WHERE name = '$name' AND email = '$email' AND message = '$msg'") or die(mysqli_error($conn));
+
+      if (mysqli_num_rows($select_message) > 0) {
+         $message[] = 'message sent already!';
+      } else {
+         mysqli_query($conn, "INSERT INTO `message`(user_id, name, email, message, timestamp) VALUES('$user_id', '$name', '$email', '$msg', NOW())") or die(mysqli_error($conn));
+         $message[] = 'message sent successfully!';
+      }
    }
 
+   // Запрос для получения сообщений пользователя и ответов администратора
+   $sql = "SELECT m.*, r.reply_text, r.timestamp AS reply_timestamp FROM `message` m LEFT JOIN `message_reply` r ON m.id = r.message_id WHERE m.user_id = $user_id";
+   $result = mysqli_query($conn, $sql);
+} else {
+   echo 'Ошибка выполнения запроса: ' . mysqli_error($conn);
+   $result = false;
 }
-
-// Запрос для получения сообщений пользователя и ответов администратора
-$sql = "SELECT m.*, r.reply_text, r.timestamp AS reply_timestamp FROM `message` m LEFT JOIN `message_reply` r ON m.id = r.message_id WHERE m.user_id = $user_id";
-$result = mysqli_query($conn, $sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -68,19 +67,24 @@ $result = mysqli_query($conn, $sql);
       <h3>связаться с нами</h3>
       
       <textarea name="message" class="box" placeholder="Ваше сообщение" id="" cols="30" rows="10"></textarea>
+      <?php if(isset($user_id)) { ?>
       <input type="submit" value="Отправить" name="send" class="btn">
+      <?php } else { ?>
+         <input type="submit" value="Отправить" name="send" class="btn" disabled>
+      <?php } ?>
+      
    </form>
 
    <h3>Ваши сообщения:</h3>
    <?php
-      if(mysqli_num_rows($result) > 0){
-         while($row = mysqli_fetch_assoc($result)){
+      if ($result && mysqli_num_rows($result) > 0) {
+         while ($row = mysqli_fetch_assoc($result)) {
    ?>
       <div class="message-box">
          <p>Ваше сообщение:</p>
          <p><?php echo $row['message']; ?></p>
          <p class="timestamp">Отправлено: <?php echo $row['timestamp']; ?></p>
-         <?php if($row['reply_text']) { ?>
+         <?php if ($row['reply_text']) { ?>
             <div class="admin-reply">
                <p>Ответ администратора:</p>
                <p><?php echo $row['reply_text']; ?></p>
