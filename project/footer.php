@@ -12,10 +12,10 @@
 
       <div class="box">
          <h3>социальные сети</h3>
-         <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-         <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-         <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-         <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
+         <a href="#"> <i class="fab fa-vk"></i>ВКонтакте</a>
+         <a href="#"> <i class="fab fa-facebook-f"></i>Facebook</a>
+         <a href="#"> <i class="fab fa-instagram"></i>Instagram</a>
+         <a href="#"> <i class="fab fa-telegram"></i>Telegram</a>
       </div>
 
    </div>
