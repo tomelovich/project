@@ -5,24 +5,6 @@ document.querySelector('#user-btn').onclick = () =>{
    navbar.classList.remove('active');
 }
 
-// let parent = document.querySelector('.catalog-nav__wrapper');
-// let menuItem = parent.querySelectorAll('.catalog-nav__btn');
-
-
-// parent.addEventListener('click', (event) => {
-//   // Отлавливаем элемент в родители на который мы нажали
-//   let target = event.target;
-  
-//     for(let i = 0; i < menuItem.length; i++) {
-//       // Убираем у других
-//       menuItem[i].classList.remove('is-active');
-//     }
-//     // Добавляем тому на который нажали
-//     target.classList.add('is-active');
-//   }
-  
-// );
-
 
 let navbar = document.querySelector('.header .header-2 .navbar');
 
@@ -102,3 +84,50 @@ function updateMessages() {
 
 // Обновление сообщений каждые 5 секунд
 setInterval(updateMessages, 5000);
+
+function handleCityInput() {
+   var cityInput = document.getElementById('city');
+   var city = cityInput.value.trim();
+
+   if (city.length >= 2) {
+      var xhr = new XMLHttpRequest();
+      var url = 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address';
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Authorization', 'Token 6ddf0fad2849dee12456fc362586aa8133f01042');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.setRequestHeader('Accept', 'application/json');
+
+      xhr.onreadystatechange = function() {
+         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var suggestions = response.suggestions;
+            var suggestionsList = document.getElementById('city-suggestions');
+            suggestionsList.innerHTML = '';
+
+            suggestions.forEach(function(suggestion) {
+               var li = document.createElement('li');
+               li.textContent = suggestion.value;
+               li.addEventListener('click', function() {
+                  cityInput.value = suggestion.value;
+                  suggestionsList.innerHTML = '';
+               });
+               suggestionsList.appendChild(li);
+            });
+         }
+      };
+
+      var requestData = {
+         query: city,
+         count: 5,
+         "locations": [
+            {
+                "country_iso_code": "BY"
+            }
+         ]
+      };
+
+      xhr.send(JSON.stringify(requestData));
+   } else {
+      document.getElementById('city-suggestions').innerHTML = '';
+   }
+}

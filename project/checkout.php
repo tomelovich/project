@@ -1,4 +1,5 @@
 <?php
+
 include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
@@ -10,8 +11,8 @@ if(isset($_POST['order_btn'])){
    $number = $_POST['number'];
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $method = mysqli_real_escape_string($conn, $_POST['method']);
-   $address = mysqli_real_escape_string($conn, $_POST['city'].', '. $_POST['street'].', № '. $_POST['flat'].' - '. $_POST['pin_code']);
-   $placed_on = date("d.m.Y");
+   $address = mysqli_real_escape_string($conn, $_POST['city']);
+   $placed_on = date("Y-m-d");
    if(empty($name) || empty($number) || empty($email) || empty($method) || empty($address)){
       $message[] = 'Пожалуйста, заполните все обязательные поля!';
    } else {
@@ -93,15 +94,15 @@ if(isset($_POST['order_btn'])){
          <div class="flex">
             <div class="inputBox">
                <span>Имя :</span>
-               <input type="text" name="name" required placeholder="Введите ваше имя">
+               <input type="text" name="name" autocomplete="off" required placeholder="Введите ваше имя">
             </div>
             <div class="inputBox">
                <span>Номер телефона :</span>
-               <input type="text" name="number" required pattern="(\+375|80)\s?\d{2,3}\s?\d{2,3}-?\d{2}-?\d{2}" placeholder="Введите ваш номер телефона">
+               <input type="text" name="number" autocomplete="off" required pattern="(\+375|80)\s?\d{2,3}\s?\d{2,3}-?\d{2}-?\d{2}" placeholder="Введите ваш номер телефона">
             </div>
             <div class="inputBox">
                <span>Email :</span>
-               <input type="email" name="email" required placeholder="Введите ваш email">
+               <input type="email" name="email" autocomplete="off" required placeholder="Введите ваш email">
             </div>
             <div class="inputBox">
                <span>Способ оплаты :</span>
@@ -111,21 +112,11 @@ if(isset($_POST['order_btn'])){
                </select>
             </div>
             <div class="inputBox">
-               <span>Город :</span>
-               <input type="text" name="city" required placeholder="Например: Борисов">
+               <span>Адрес :</span>
+               <input type="text" id="city" name="city" autocomplete="off" oninput="handleCityInput()" required placeholder="Например: Борисов">
+               <ul id="city-suggestions"></ul>
             </div>
-            <div class="inputBox">
-               <span>Улица :</span>
-               <input type="text" name="street" required placeholder="Например: Ленина">
-            </div>
-            <div class="inputBox">
-               <span>Номер дома :</span>
-               <input type="text" name="flat" required placeholder="Например: 13">
-            </div>  
-            <div class="inputBox">
-               <span>Индекс :</span>
-               <input type="text" name="pin_code" required placeholder="Например: 230009">
-            </div>
+            
          </div>
          <input type="submit" value="Оформить" class="btn" name="order_btn">
       </form>
