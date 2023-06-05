@@ -1,34 +1,23 @@
 <?php
 include 'config.php';
-
 session_start();
-
 $admin_id = $_SESSION['admin_id'];
-
 if (!isset($admin_id)) {
    header('location:login.php');
 }
-
-
-// Retrieve selected filters
 $product_id = $_GET['product_id'];
 $rating = $_GET['rating'];
 $time_filter = $_GET['time_filter'];
-
-// Construct the query based on the selected filters
 $query = "SELECT r.*, u.name AS user_name, p.name AS product_name FROM `reviews` r ";
 $query .= "JOIN `users` u ON r.user_id = u.id ";
 $query .= "JOIN `products` p ON r.product_id = p.id ";
 $query .= "WHERE 1 ";
-
 if (!empty($product_id)) {
    $query .= "AND r.product_id = '$product_id' ";
 }
-
 if (!empty($rating)) {
    $query .= "AND r.rating = '$rating' ";
 }
-
 if (!empty($time_filter)) {
    $current_date = date('d.m.Y');
    switch ($time_filter) {
@@ -45,9 +34,7 @@ if (!empty($time_filter)) {
          break;
    }
 }
-
 $select_reviews = mysqli_query($conn, $query) or die('query failed');
-
 if(isset($_GET['delete'])){
    $delete_id = $_GET['delete'];
    mysqli_query($conn, "DELETE FROM `rewiews` WHERE id = '$delete_id'") or die('query failed');
@@ -58,34 +45,21 @@ if(isset($_GET['delete_reply'])){
    mysqli_query($conn, "DELETE FROM `admin_replies` WHERE id = '$delete_id'") or die('query failed');
    header('location:admin_rewiews.php');
 }
-
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ru">
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Отзывы</title>
-
-   <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-   <!-- custom admin css file link  -->
    <link rel="stylesheet" href="css/admin_style.css">
-
 </head>
-
 <body>
-
    <?php include 'admin_header.php'; ?>
-
    <section class="rewiews">
-
       <h1 class="title">Отзывы на товары</h1>
-
       <div class="filter">
          <h3>Фильтровать по товару, рейтингу и времени</h3>
          <form action="" method="GET">
@@ -120,7 +94,6 @@ if(isset($_GET['delete_reply'])){
             <button type="submit" class="btn">Применить фильтр</button>
          </form>
       </div>
-
       <div class="box-container">
          <?php
          if (mysqli_num_rows($select_reviews) > 0) {
@@ -160,7 +133,6 @@ if(isset($_GET['delete_reply'])){
                      </div>
                   </div>
                   <a href="admin_rewiews.php?delete=<?php echo $review_id; ?>" onclick="return confirm('Удалить этот отзыв?');" class="delete-btn">Удалить</a>
-                  
                </div>
          <?php
             }
@@ -169,12 +141,7 @@ if(isset($_GET['delete_reply'])){
          }
          ?>
       </div>
-
    </section>
-
-   <!-- custom admin js file link  -->
    <script src="js/admin_script.js"></script>
-
 </body>
-
 </html>
