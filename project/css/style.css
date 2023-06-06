@@ -879,12 +879,12 @@ section{
 .placed-orders .box-container .box p span{
    color:var(--purple);
 }
-
 .search-form form{
    max-width: 1200px;
    margin:0 auto;
    display: flex;
    gap:1rem;
+   position: relative; /* Добавлено */
 }
 
 .search-form form .btn{
@@ -900,6 +900,40 @@ section{
    background-color: var(--light-bg);
    border-radius: .5rem;
 }
+
+.search-container {
+   position: relative;
+   display: inline-block;
+   width: 100%;
+}
+
+.suggestions {
+   position: absolute;
+   background-color: white;
+   box-shadow: var(--box-shadow);
+   max-height: 150px;
+   overflow-y: auto;
+   width: 100%;
+   padding: 5px;
+   top: 100%;
+   left: 0;
+   z-index: 1; 
+   border-radius: 0.5rem;
+}
+
+.suggestion-item {
+   padding: 10px 5px;
+   font-size: 14px;
+   cursor: pointer;
+   border-radius: 0.5rem;
+}
+
+.suggestion-item:hover {
+   background-color: var(--purple);
+   color: white;
+}
+
+
 .catalog-book__product { 
    display: flex;
  }

@@ -131,3 +131,42 @@ function handleCityInput() {
       document.getElementById('city-suggestions').innerHTML = '';
    }
 }
+function handleSearchInput(value) {
+   var container = document.getElementById('suggestions-container');
+   if (value.length > 0) {
+      // Выполнить Ajax запрос для получения подсказок
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'get_suggestions.php?query=' + value, true);
+      xhr.onreadystatechange = function() {
+         if (xhr.readyState === 4 && xhr.status === 200) {
+            var suggestions = JSON.parse(xhr.responseText);
+            showSuggestions(suggestions, container); // Передан контейнер для подсказок
+         }
+      };
+      xhr.send();
+   } else {
+      container.innerHTML = '';
+   }
+}
+
+function showSuggestions(suggestions, container) { // Передан контейнер для подсказок
+   container.innerHTML = '';
+
+   if (suggestions.length > 0) {
+      var ul = document.createElement('ul');
+      ul.classList.add('suggestions');
+
+      suggestions.forEach(function(suggestion) {
+         var li = document.createElement('li');
+         li.classList.add('suggestion-item');
+         li.textContent = suggestion;
+         li.addEventListener('click', function() {
+            document.querySelector('input[name="search"]').value = suggestion;
+            document.querySelector('input[name="submit"]').click();
+         });
+         ul.appendChild(li);
+      });
+
+      container.appendChild(ul);
+   }
+}

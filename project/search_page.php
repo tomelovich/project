@@ -20,7 +20,7 @@ if(isset($_POST['add_to_cart'])){
       mysqli_query($conn, "INSERT INTO `cart`(user_id, product_id, price, quantity, image) VALUES('$user_id', '$id', '$product_price', '$product_quantity', '$product_image')") or die('query failed');
       $message[] = 'product added to cart!';
    }
-};
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -39,8 +39,9 @@ if(isset($_POST['add_to_cart'])){
    </div>
    <section class="search-form">
       <form action="" method="post">
-         <input type="text" name="search" placeholder="Название книги" class="box">
+         <input type="text" name="search" placeholder="Название книги" class="box" autocomplete="off" onkeyup="handleSearchInput(this.value)">
          <input type="submit" name="submit" value="Искать" class="btn">
+         <div id="suggestions-container"></div>
       </form>
    </section>
    <section class="products" style="padding-top: 0;">
