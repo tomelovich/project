@@ -115,7 +115,6 @@
     <div class="feedback_statistics">
             <div class="rating_book">
                 <b>Средняя оценка: <?php echo number_format($average_rating, 1); ?></b>
-                <?php echo $numb_rev ?>
                 <?php 
                     if ($numb_rev == 1) {
                         echo "<p>" . $numb_rev . " отзыв</p>";

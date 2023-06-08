@@ -55,7 +55,7 @@ if(isset($_POST['add_to_cart'])){
       ?>
       <form action="" method="post" class="box">
          <img src="uploaded_img/<?php echo $fetch_product['image']; ?>" alt="" class="image">
-         <div class="name"><?php echo $fetch_product['name']; ?></div>
+         <div class="name"><a title="<?php echo $fetch_product['name']; ?>" href="book.php?id=<?php echo $fetch_product['id']; ?>"><?php echo $fetch_product['name']; ?></a></div>
          <div class="price"><?php echo $fetch_product['price']; ?> руб</div>
          <input type="number"  class="qty" name="product_quantity" min="1" value="1">
          <input type="hidden" name="product_name" value="<?php echo $fetch_product['name']; ?>">
