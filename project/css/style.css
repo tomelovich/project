@@ -320,14 +320,15 @@ section{
 
 .header .header-2 .flex .user-box{
    position: absolute;
-   top:120%; right:2rem;
+   top:100%; 
+   right: 10%;
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
    border:var(--border);
    padding:2rem;
    text-align: center;
-   width: 30rem;
+   width: 45rem;
    display: none;
    
 }
@@ -650,7 +651,7 @@ section{
    max-width: 1200px;
    margin:0 auto;
    display: grid;
-   grid-template-columns: repeat(auto-fit, 30rem);
+   grid-template-columns: repeat(auto-fit, 35rem);
    align-items: center;
    gap:1.5rem;
    justify-content: center;
@@ -707,7 +708,7 @@ section{
    padding:1rem 1rem;
    font-size: 2rem;
    color:var(--black);
-   width: 9rem;
+   width: 15rem;
 }
 
 .shopping-cart .box-container .box .sub-total{

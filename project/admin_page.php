@@ -103,7 +103,7 @@ if(!isset($admin_id)){
                $number_of_reviews = mysqli_num_rows($select_reviews);
             ?>
             <h3><?php echo $number_of_reviews; ?></h3>
-            <p>Новые отзывы</p>
+            <p>Отзывы</p>
          </div>
       </div>
    </section>

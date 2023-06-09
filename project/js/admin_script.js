@@ -39,3 +39,11 @@ window.onclick = function(event) {
         event.target.style.display = 'none';
     }
 };
+
+const filterToggleBtn = document.querySelector('.filter-toggle-btn');
+const filterContainer = document.querySelector('.filter');
+
+filterToggleBtn.addEventListener('click', () => {
+   const isCollapsed = filterContainer.classList.toggle('collapsed');
+   filterToggleBtn.setAttribute('aria-expanded', !isCollapsed);
+});

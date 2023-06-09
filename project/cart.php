@@ -43,12 +43,15 @@ if(isset($_GET['delete_all'])){
             $grand_total = 0;
             $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die('query failed');
             if(mysqli_num_rows($select_cart) > 0){
-               while($fetch_cart = mysqli_fetch_assoc($select_cart)){   
+               while($fetch_cart = mysqli_fetch_assoc($select_cart)){
+                  $product_id = $fetch_cart['product_id'];
+                  $select_product = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die('query failed');
+                  $fetch_product = mysqli_fetch_assoc($select_product);
          ?>
          <div class="box">
             <a href="cart.php?delete=<?php echo $fetch_cart['id']; ?>" class="fas fa-times" onclick="return confirm('удалить это из корзины?');"></a>
             <img src="uploaded_img/<?php echo $fetch_cart['image']; ?>" alt="">
-            <div class="name"><?php echo $fetch_cart['name']; ?></div>
+            <div class="name"><?php echo $fetch_product['name']; ?></div>
             <div class="price"><?php echo $fetch_cart['price']; ?> руб</div>
             <form action="" method="post">
                <input type="hidden" name="cart_id" value="<?php echo $fetch_cart['id']; ?>">

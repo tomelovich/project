@@ -98,7 +98,8 @@ if(isset($_POST['order_btn'])){
             </div>
             <div class="inputBox">
                <span>Номер телефона :</span>
-               <input type="text" name="number" autocomplete="off" required pattern="(\+375|80)\s?\d{2,3}\s?\d{2,3}-?\d{2}-?\d{2}" placeholder="Введите ваш номер телефона">
+               <input type="text" name="number" autocomplete="off" required pattern="(\375|80)?\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}" placeholder="Введите ваш номер телефона">
+
             </div>
             <div class="inputBox">
                <span>Email :</span>

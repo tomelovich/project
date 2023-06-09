@@ -61,6 +61,10 @@ if(isset($_GET['delete_reply'])){
    <section class="rewiews">
       <h1 class="title">Отзывы на товары</h1>
       <div class="filter">
+      <button class="filter-toggle-btn" aria-expanded="true">
+      <span class="arrow-down"></span>
+      <span class="arrow-up"></span>
+   </button>
          <h3>Фильтровать по товару, рейтингу и времени</h3>
          <form action="" method="GET">
             <select name="product_id">
