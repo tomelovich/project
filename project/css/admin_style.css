@@ -812,24 +812,33 @@ section{
    overflow: auto;
    background-color: rgba(0, 0, 0, 0.4);
 }
+
 .modal-content {
    background-color: #fefefe;
    padding: 20px;
    border: 1px solid #888;
    width: 80%;
-   
+   /* Центрирование модального окна */
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
 }
+
 .modal-content textarea {
    width: 100%;
    border: 1px solid black;
    padding: 10px;
 }
+
 .close {
    color: #aaa;
    float: right;
    font-size: 28px;
    font-weight: bold;
+   cursor: pointer;
 }
+
 .admin-reply {
    margin: 1rem 1rem 1rem 3rem;
    padding: 10px;

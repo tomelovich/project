@@ -1302,10 +1302,9 @@ section{
  #openModal:hover, .openModal:hover {
    background-color: var(--black);
  }
- /* Стили для контента модального окна */
  .modal-content {
    background-color: #fefefe;
-   margin: 10% auto;
+   margin: 35% auto;
    padding: 20px;
    border: 1px solid #888;
    width: 80%;
