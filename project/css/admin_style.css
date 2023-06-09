@@ -456,61 +456,71 @@ section{
    font-size: 1.8rem;
    color:var(--black);
 }
-
-.users .box-container{
+.users .box-container {
    display: grid;
-   grid-template-columns: repeat(auto-fit, 35rem);
+   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
    justify-content: center;
-   gap:1.5rem;
-   max-width: 1200px;
-   margin:0 auto;
+   gap: 1.5rem;
+   max-width: 1000px;
+   margin: 0 auto;
    align-items: flex-start;
-}
+ }
 
-.users .box-container .box{
+ .users .box-container .box {
    background-color: var(--white);
    padding:2rem;
    border:var(--border);
    box-shadow: var(--box-shadow);
    border-radius: .5rem;
-   text-align: center;
-}
-
-.users .box-container .box p{
+ }
+ 
+ .users .box-container .box p {
    padding-bottom: 1.5rem;
    font-size: 2rem;
-   color:var(--light-color);
-}
-
-.users .box-container .box p span{
-   color:var(--purple);
-}
-
-.users .box-container .box .delete-btn{
+ }
+ 
+ .users .box-container .box p span {
+   color: var(--purple);
+ }
+ .users .box-container .box button {
+   background-color: transparent;
+   text-align: left;
+ }
+ 
+ .users .box-container .box button:hover {
+   cursor: pointer;
+ }
+ .users .box-container .box button:focus {
+   outline: none;
+ }
+ 
+ .users .box-container .box .delete-btn {
    margin-top: 0;
-}
-@media (max-width: 768px) {
-   .users .box-container{
-      grid-template-columns: repeat(auto-fit, 40rem);
+ }
+ 
+ @media (max-width: 768px) {
+   .users .box-container {
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
    }
-   
-}
-
-@media (max-width: 576px) {
-   .users .box-container{
-      grid-template-columns: repeat(auto-fit, 45rem);
+ }
+ 
+ @media (max-width: 576px) {
+   .users .box-container {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
    }
-}
+ }
+ 
 
-.messages .box-container{
+.messages .box-container {
    display: grid;
-   grid-template-columns: repeat(auto-fit, auto-fit);
-   justify-content: start;
-   gap:1.5rem;
+   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+   justify-content: center;
+   gap: 1.5rem;
    max-width: 1000px;
-   margin: auto 0;
+   margin: 0 auto;
    align-items: flex-start;
-}
+ }
+ 
 
 .messages .box-container .box{
    background-color: var(--white);
@@ -534,7 +544,20 @@ section{
 .messages .box-container .box .delete-btn{
    margin-top: 0;
 }
-
+@media (max-width: 768px) {
+   .messages .box-container {
+     grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+     gap: 1rem;
+     max-width: 90%;
+   }
+ }
+ 
+ @media (max-width: 480px) {
+   .messages .box-container {
+     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+     gap: 0.5rem;
+   }
+ }
 
 @media (max-width:991px){
 
