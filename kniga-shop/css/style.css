@@ -1258,7 +1258,7 @@ section{
    }
 
 }
-/* ----------------------------------------------------------------отзывы */
+
 .modal {
    display: none; /* скрываем по умолчанию */
    position: fixed; /* фиксированное положение */
@@ -1304,7 +1304,7 @@ section{
  }
  .modal-content {
    background-color: #fefefe;
-   margin: 35% auto;
+   margin: 15% auto;
    padding: 20px;
    border: 1px solid #888;
    width: 80%;
@@ -1419,6 +1419,7 @@ section{
 @media screen and (max-width: 768px) {
    .modal-content {
        width: 90%;
+       margin: 30% auto;
    }
 
    .review_content label {
@@ -1451,6 +1452,7 @@ section{
 @media screen and (max-width: 480px) {
    .modal-content {
        width: 95%;
+       margin: 35% auto;
    }
 
    .modal-content h1 {
