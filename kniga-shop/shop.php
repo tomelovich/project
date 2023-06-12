@@ -76,9 +76,9 @@ $select_products = mysqli_query($conn, "SELECT * FROM `products` ORDER BY name")
             <input type="hidden" name="product_price" value="<?php echo $fetch_products['price']; ?>">
             <input type="hidden" name="product_image" value="<?php echo $fetch_products['image']; ?>">
             <?php if(isset($user_id)) { ?>
-            <input type="submit" value="В корзину" name="add_to_cart" class="btn">
+               <input type="submit" value="В корзину" name="add_to_cart" class="btn">
             <?php } else { ?>
-            <input type="submit" value="В корзину" name="add_to_cart" class="btn" disabled>
+               <button type="button" class="btn" onclick="showLoginPopup()">В корзину</button>
             <?php } ?>
          </form>
          <?php

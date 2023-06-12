@@ -18,8 +18,8 @@ if(isset($message)){
          <a href="admin_products.php">Книги</a>
          <a href="admin_orders.php">Заказы</a>
          <a href="admin_users.php">Пользователи</a>
+         <a href="admin_contacts.php">Сообщения</a>
          <a href="admin_rewiews.php">Отзывы</a>
-         <a href="admin_chat.php">Чат</a>
       </nav>
       <div class="icons">
          <div id="menu-btn" class="fas fa-bars"></div>

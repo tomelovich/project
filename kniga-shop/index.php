@@ -59,13 +59,13 @@ if(isset($_POST['add_to_cart'])){
          <?php if(isset($user_id)) { ?>
             <input type="submit" value="В корзину" name="add_to_cart" class="btn">
          <?php } else { ?>
-            <input type="submit" value="В корзину" name="add_to_cart" class="btn" disabled>
+            <button type="button" class="btn" onclick="showLoginPopup()">В корзину</button>
          <?php } ?>
       </form>
          <?php
             }
          }else{
-            echo '<p class="empty">no products added yet!</p>';
+            echo '<p class="empty">товары еще не добавлены!</p>';
          }
          ?>
       </div>

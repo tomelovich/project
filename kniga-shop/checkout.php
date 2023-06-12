@@ -1,52 +1,69 @@
 <?php
-
 include 'config.php';
 session_start();
 $user_id = $_SESSION['user_id'];
-if(!isset($user_id)){
+if (!isset($user_id)) {
    header('location:login.php');
 }
-if(isset($_POST['order_btn'])){
+if (isset($_POST['order_btn'])) {
    $name = mysqli_real_escape_string($conn, $_POST['name']);
    $number = $_POST['number'];
    $email = mysqli_real_escape_string($conn, $_POST['email']);
    $method = mysqli_real_escape_string($conn, $_POST['method']);
    $address = mysqli_real_escape_string($conn, $_POST['city']);
    $placed_on = date("Y-m-d");
-   if(empty($name) || empty($number) || empty($email) || empty($method) || empty($address)){
+   if (empty($name) || empty($number) || empty($email) || empty($method) || empty($address)) {
       $message[] = 'Пожалуйста, заполните все обязательные поля!';
    } else {
       $cart_total = 0;
       $cart_products = '';
       $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
-      if(mysqli_num_rows($cart_query) > 0){
-         while($cart_item = mysqli_fetch_assoc($cart_query)){
+      if (mysqli_num_rows($cart_query) > 0) {
+         while ($cart_item = mysqli_fetch_assoc($cart_query)) {
             $product_id = $cart_item['product_id'];
             $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die(mysqli_error($conn));
-            while($product_item = mysqli_fetch_assoc($product_query)){
-               $cart_products .= $product_item['name'].' ('.$cart_item['quantity'].') ';
+            while ($product_item = mysqli_fetch_assoc($product_query)) {
+               $cart_products .= $product_item['name'] . ' (' . $cart_item['quantity'] . ') ';
             }
             $sub_total = ($cart_item['price'] * $cart_item['quantity']);
             $cart_total += $sub_total;
          }
       }
       $order_query = mysqli_query($conn, "SELECT * FROM `orders` WHERE name = '$name' AND number = '$number' AND email = '$email' AND method = '$method' AND address = '$address' AND total_price = '$cart_total'") or die(mysqli_error($conn));
-      if($cart_total == 0){
+      if ($cart_total == 0) {
          $message[] = 'Ваша корзина пуста!';
       } else {
-         if(mysqli_num_rows($order_query) > 0){
+         if (mysqli_num_rows($order_query) > 0) {
             $message[] = 'Заказ уже сделан!';
          } else {
             mysqli_query($conn, "INSERT INTO `orders`(user_id, name, number, email, method, address, total_price, placed_on, payment_status) VALUES('$user_id', '$name', '$number', '$email', '$method', '$address', '$cart_total', '$placed_on', 'В ожидании')") or die(mysqli_error($conn));
             $id_order = mysqli_insert_id($conn);
-            $cart = mysqli_query($conn, "SELECT product_id, quantity FROM cart") or die(mysqli_error($conn));
-            if(mysqli_num_rows($cart) > 0){
-               while($cart_item = mysqli_fetch_assoc($cart)){
+            $select_cart = mysqli_query($conn, "SELECT product_id, quantity FROM cart") or die(mysqli_error($conn));
+            if (mysqli_num_rows($select_cart) > 0) {
+               while ($cart_item = mysqli_fetch_assoc($select_cart)) {
                   mysqli_query($conn, "INSERT INTO `order_products` (`order_id`, `product_id`, `quantity_products`) VALUES ('$id_order', '{$cart_item['product_id']}', '{$cart_item['quantity']}')") or die('query failed');
                }
             }
-            mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
-            $message[] = "Ваш заказ принят!";
+            $grand_total = 0;
+            $order_items = "";
+            $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
+            if (mysqli_num_rows($select_cart) > 0) {
+               while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
+                  $product_id = $fetch_cart['product_id'];
+                  $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die(mysqli_error($conn));
+                  while ($product_item = mysqli_fetch_assoc($product_query)) {
+                     $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
+                     $grand_total += $total_price;
+                     $order_items .= $product_item['name'] .' (x'. $fetch_cart['quantity'] . ' - ' . $fetch_cart['price'].' руб) ';
+                 }
+               }
+               $subject = 'Подтверждение заказа';
+               $message_body = "Ваш заказ принят! Детали заказа:\n\nИмя: $name\nТелефон: $number\nEmail: $email\nМетод оплаты: $method\nАдрес доставки: $address\n\nТовары:\n$order_items\n\nИтого: $grand_total руб.";
+               $headers = "From: your_email@example.com\r\n";
+               mail($email, $subject, $message_body, $headers);
+               $message[] = 'Ваш заказ успешно размещен! Подробности отправлены на вашу электронную почту.';
+               mysqli_query($conn, "DELETE FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
+            }
          }
       }
    }
@@ -71,11 +88,11 @@ if(isset($_POST['order_btn'])){
       <?php  
          $grand_total = 0;
          $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE user_id = '$user_id'") or die(mysqli_error($conn));
-         if(mysqli_num_rows($select_cart) > 0){
-            while($fetch_cart = mysqli_fetch_assoc($select_cart)){
+         if (mysqli_num_rows($select_cart) > 0) {
+            while ($fetch_cart = mysqli_fetch_assoc($select_cart)) {
                $product_id = $fetch_cart['product_id'];
                $product_query = mysqli_query($conn, "SELECT * FROM `products` WHERE id = '$product_id'") or die(mysqli_error($conn));
-               while($product_item = mysqli_fetch_assoc($product_query)){
+               while ($product_item = mysqli_fetch_assoc($product_query)) {
                   $total_price = ($fetch_cart['price'] * $fetch_cart['quantity']);
                   $grand_total += $total_price;
       ?>

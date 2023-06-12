@@ -170,3 +170,7 @@ function showSuggestions(suggestions, container) { // Передан конте�
       container.appendChild(ul);
    }
 }
+
+function showLoginPopup() {
+   alert('Требуется авторизация');
+}
