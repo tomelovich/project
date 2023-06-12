@@ -338,9 +338,9 @@ section{
    color:var(--black);
 }
 .name {
-   white-space: nowrap; /* Запрещаем перенос строк */
-   overflow: hidden; /* Обрезаем все, что не помещается в область */
-   text-overflow: ellipsis; /* Добавляем многоточие */
+   white-space: nowrap; 
+   overflow: hidden;
+   text-overflow: ellipsis; 
 }
 .show-products .box-container .box .price{
    padding:1rem 0;
@@ -422,7 +422,6 @@ section{
    }
    
 }
-
 
 .orders .box-container .box{
    background-color: var(--white);
@@ -535,13 +534,11 @@ section{
    margin-top: 0;
 }
 
-
 @media (max-width:991px){
 
    html{
       font-size: 55%;
    }
-
 }
 
 @media (max-width:768px){
@@ -632,7 +629,6 @@ section{
    font-size: 18px;
    text-align: center;
    color: var(--red);
-   
 }
 @media (max-width: 1200px) {
    .form-container,

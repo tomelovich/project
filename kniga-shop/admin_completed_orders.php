@@ -69,11 +69,11 @@ if(!isset($admin_id)){
          <form method="GET" action="">
                <div class="label_input">
                   <label for="start_date">С:</label>
-                  <input type="date" name="start_date" id="start_date">
+                  <input type="date" name="start_date" id="start_date" value="<?php echo isset($_GET['start_date']) ? $_GET['start_date'] : ''; ?>">
                </div>           
                <div class="label_input">
                   <label for="end_date">По:</label>
-                  <input type="date" name="end_date" id="end_date">
+                  <input type="date" name="end_date" id="end_date" value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : ''; ?>">
                </div>
                <button type="submit" class="btn">Применить</button>
          </form>
